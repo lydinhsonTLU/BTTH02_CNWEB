@@ -122,18 +122,12 @@ CREATE TABLE materials
     ('An ninh mạng', 'Các khóa học về bảo mật thông tin và an toàn mạng', '2024-01-14 12:00:00');
 
 -- Thêm 5 courses
-    INSERT INTO courses (title, description, instructor_id, category_id, price, duration_weeks, level, image,
-                         created_at)
-    VALUES ('HTML CSS từ cơ bản đến nâng cao', 'Học HTML và CSS để xây dựng giao diện web đẹp mắt', 3, 1, 299000. 00, 4,
-            'Beginner', 'html-css. jpg', '2024-02-10 10:00:00'),
-           ('JavaScript ES6+ cho người mới', 'Nắm vững JavaScript hiện đại với ES6+', 3, 1, 499000.00, 6,
-            'Intermediate', 'javascript. jpg', '2024-02-15 11:00:00'),
-           ('React Native - Xây dựng App Mobile', 'Tạo ứng dụng di động đa nền tảng với React Native', 4, 2, 799000.00,
-            8, 'Intermediate', 'react-native.jpg', '2024-02-20 12:00:00'),
-           ('Python cho Data Science', 'Phân tích dữ liệu và machine learning với Python', 4, 3, 899000.00, 10,
-            'Advanced', 'python-ds.jpg', '2024-02-25 13:00:00'),
-           ('Docker và Kubernetes cơ bản', 'Triển khai ứng dụng với container và orchestration', 3, 4, 699000.00, 6,
-            'Intermediate', 'docker-k8s.jpg', '2024-03-01 14:00:00');
+    INSERT INTO courses (title, description, instructor_id, category_id, price, duration_weeks, level, image, created_at)
+    VALUES ('HTML CSS từ cơ bản đến nâng cao', 'Học HTML và CSS để xây dựng giao diện web đẹp mắt', 3, 1, 299000. 00, 4,'Beginner', 'html-css. jpg', '2024-02-10 10:00:00'),
+           ('JavaScript ES6+ cho người mới', 'Nắm vững JavaScript hiện đại với ES6+', 3, 1, 499000.00, 6,'Intermediate', 'javascript. jpg', '2024-02-15 11:00:00'),
+           ('React Native - Xây dựng App Mobile', 'Tạo ứng dụng di động đa nền tảng với React Native', 4, 2, 799000.00,8, 'Intermediate', 'react-native.jpg', '2024-02-20 12:00:00'),
+           ('Python cho Data Science', 'Phân tích dữ liệu và machine learning với Python', 4, 3, 899000.00, 10,'Advanced', 'python-ds.jpg', '2024-02-25 13:00:00'),
+           ('Docker và Kubernetes cơ bản', 'Triển khai ứng dụng với container và orchestration', 3, 4, 699000.00, 6,'Intermediate', 'docker-k8s.jpg', '2024-03-01 14:00:00');
 
 -- Thêm 5 enrollments
     INSERT INTO enrollments (course_id, student_id, enrolled_date, status, progress)
