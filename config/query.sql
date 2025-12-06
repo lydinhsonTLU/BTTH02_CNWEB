@@ -17,81 +17,94 @@
         --└── Theo dõi: Tiến độ học tập
 
 -- Tạo bảng users       (NGƯỜI DÙNG)
-CREATE TABLE users
-(
-    id       INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    email    VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255)        NOT NULL,
-    fullname VARCHAR(255),
-    role     INT                 NOT NULL DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+    CREATE TABLE users
+    (
+        id       INT PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(255) UNIQUE NOT NULL,
+        email    VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255)        NOT NULL,
+        fullname VARCHAR(255),
+        role     INT                 NOT NULL DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+-- Tạo bảng users_cho_duyet (TÀI KHOẢN CHỜ DUYỆT)
+    CREATE TABLE users_cho_duyet
+    (
+        id       INT PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(255) UNIQUE NOT NULL,
+        email    VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255)        NOT NULL,
+        fullname VARCHAR(255),
+        role     INT                 NOT NULL DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
 
 -- Tạo bảng categories      (DANH MỤC KHÓA HỌC)
-CREATE TABLE categories
-(
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    name        VARCHAR(255) NOT NULL,
-    description TEXT,
-    created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
-)
+    CREATE TABLE categories
+    (
+        id          INT PRIMARY KEY AUTO_INCREMENT,
+        name        VARCHAR(255) NOT NULL,
+        description TEXT,
+        created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
 
 -- Tạo bảng courses         (KHÓA HỌC)
-CREATE TABLE courses
-(
-    id             INT PRIMARY KEY AUTO_INCREMENT,
-    title          VARCHAR(255) NOT NULL,
-    description    TEXT,
-    instructor_id  INT          NOT NULL,
-    category_id    INT          NOT NULL,
-    price          DECIMAL(10, 2) DEFAULT 0.00,
-    duration_weeks INT,
-    level          VARCHAR(50) image VARCHAR(255),
-    created_at     DATETIME       DEFAULT CURRENT_TIMESTAMP,
-    updated_at     DATETIME       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (instructor_id) REFERENCES users (id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
-)
+    CREATE TABLE courses
+    (
+        id             INT PRIMARY KEY AUTO_INCREMENT,
+        title          VARCHAR(255) NOT NULL,
+        description    TEXT,
+        instructor_id  INT          NOT NULL,
+        category_id    INT          NOT NULL,
+        price          DECIMAL(10, 2) DEFAULT 0.00,
+        duration_weeks INT,
+        level          VARCHAR(50),
+        image VARCHAR(255),
+        created_at     DATETIME       DEFAULT CURRENT_TIMESTAMP,
+        updated_at     DATETIME       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (instructor_id) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
+    );
 
 -- Tạo bảng enrollments         (ĐĂNG KÝ HỌC)
-CREATE TABLE enrollments
-(
-    id            INT PRIMARY KEY AUTO_INCREMENT,
-    course_id     INT NOT NULL,
-    student_id    INT NOT NULL,
-    enrolled_date DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    status        VARCHAR(50) DEFAULT 'active',
-    progress INT DEFAULT 0,
-    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
-    FOREIGN KEY (student_id) REFERENCES users (id) ON DELETE CASCADE,
-    UNIQUE KEY unique_enrollment (course_id, student_id)
-)
+    CREATE TABLE enrollments
+    (
+        id            INT PRIMARY KEY AUTO_INCREMENT,
+        course_id     INT NOT NULL,
+        student_id    INT NOT NULL,
+        enrolled_date DATETIME    DEFAULT CURRENT_TIMESTAMP,
+        status        VARCHAR(50) DEFAULT 'active',
+        progress INT DEFAULT 0,
+        FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE,
+        FOREIGN KEY (student_id) REFERENCES users (id) ON DELETE CASCADE,
+        UNIQUE KEY unique_enrollment (course_id, student_id)
+    );
 
 -- Tạo bảng lessons         (BÀI HỌC)
-CREATE TABLE lessons
-(
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    course_id  INT          NOT NULL,
-    title      VARCHAR(255) NOT NULL,
-    content    LONGTEXT,
-    video_url  VARCHAR(255),
-    order      INT      DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
-)
+    CREATE TABLE lessons
+    (
+        id         INT PRIMARY KEY AUTO_INCREMENT,
+        course_id  INT          NOT NULL,
+        title      VARCHAR(255) NOT NULL,
+        content    LONGTEXT,
+        video_url  VARCHAR(255),
+        `order`      INT      DEFAULT 0,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (course_id) REFERENCES courses (id) ON DELETE CASCADE
+    );
 
 -- Tạo bảng materials               (TÀI LIỆU HỌC TẬP)
-CREATE TABLE materials
-(
-    id        INT PRIMARY KEY AUTO_INCREMENT,
-    lesson_id INT          NOT NULL,
-    filename  VARCHAR(255) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    file_type VARCHAR(50),
-    uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (lesson_id) REFERENCES lessons (id) ON DELETE CASCADE
-)
+    CREATE TABLE materials
+    (
+        id        INT PRIMARY KEY AUTO_INCREMENT,
+        lesson_id INT          NOT NULL,
+        filename  VARCHAR(255) NOT NULL,
+        file_path VARCHAR(255) NOT NULL,
+        file_type VARCHAR(50),
+        uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (lesson_id) REFERENCES lessons (id) ON DELETE CASCADE
+    );
 
 
 -- ========================================
@@ -99,7 +112,7 @@ CREATE TABLE materials
 -- ========================================
 
 -- Thêm 5 users (2 quản trị viên, 2 giảng viên, 1 học viên sẽ thêm sau)
-    /*INSERT INTO users (username, email, password, fullname, role, created_at) VALUES
+    INSERT INTO users (username, email, password, fullname, role, created_at) VALUES
     ('admin1', 'admin1@example. com', '$2y$10$abcdefghijklmnopqrstuv', 'Nguyễn Văn Admin', 2, '2024-01-15 08:00:00'),
     ('admin2', 'admin2@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Trần Thị Quản Trị', 2, '2024-01-20 09:30:00'),
     ('gv_nguyen', 'nguyenvana@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Nguyễn Văn A', 1, '2024-02-01 10:00:00'),
@@ -111,7 +124,7 @@ CREATE TABLE materials
     ('hv_pham', 'phamthid@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Phạm Thị D', 0, '2024-03-05 15:00:00'),
     ('hv_hoang', 'hoangvane@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Hoàng Văn E', 0, '2024-03-10 16:00:00'),
     ('hv_vu', 'vuthif@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Vũ Thị F', 0, '2024-03-15 17:00:00'),
-    ('hv_dang', 'dangvang@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Đặng Văn G', 0, '2024-03-20 18:00:00');       */
+    ('hv_dang', 'dangvang@example.com', '$2y$10$abcdefghijklmnopqrstuv', 'Đặng Văn G', 0, '2024-03-20 18:00:00');
 
 -- Thêm 5 categories
     INSERT INTO categories (name, description, created_at) VALUES
@@ -123,7 +136,7 @@ CREATE TABLE materials
 
 -- Thêm 5 courses
     INSERT INTO courses (title, description, instructor_id, category_id, price, duration_weeks, level, image, created_at)
-    VALUES ('HTML CSS từ cơ bản đến nâng cao', 'Học HTML và CSS để xây dựng giao diện web đẹp mắt', 3, 1, 299000. 00, 4,'Beginner', 'html-css. jpg', '2024-02-10 10:00:00'),
+    VALUES ('HTML CSS từ cơ bản đến nâng cao', 'Học HTML và CSS để xây dựng giao diện web đẹp mắt', 3, 1, 299000.00, 4,'Beginner', 'html-css. jpg', '2024-02-10 10:00:00'),
            ('JavaScript ES6+ cho người mới', 'Nắm vững JavaScript hiện đại với ES6+', 3, 1, 499000.00, 6,'Intermediate', 'javascript. jpg', '2024-02-15 11:00:00'),
            ('React Native - Xây dựng App Mobile', 'Tạo ứng dụng di động đa nền tảng với React Native', 4, 2, 799000.00,8, 'Intermediate', 'react-native.jpg', '2024-02-20 12:00:00'),
            ('Python cho Data Science', 'Phân tích dữ liệu và machine learning với Python', 4, 3, 899000.00, 10,'Advanced', 'python-ds.jpg', '2024-02-25 13:00:00'),

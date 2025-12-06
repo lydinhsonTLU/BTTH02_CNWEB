@@ -3,7 +3,7 @@
 class ConnectDb
 {
     private $host = "127.0.0.1";
-    private $db = "BTTH02_CNWEB";                    //tên CSDL 
+    private $db = "btth02_cnweb";                    //tên CSDL 
     private $user = "root";
     private $password = "";
     private $charset = "utf8mb4";
