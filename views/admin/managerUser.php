@@ -71,22 +71,21 @@
                 <hr class="bg-white">
             </div>
             <nav class="nav flex-column">
-                <a class="nav-link active" href="#" onclick="showTab('users')">
+                <a class="nav-link active" href="#">
                     <i class="fas fa-users"></i> Người dùng
                 </a>
-                <a class="nav-link" href="#" onclick="showTab('categories')">
+                <a class="nav-link" href="../controllers/CourseController.php" >
                     <i class="fas fa-folder"></i> Danh mục khóa học
                 </a>
-                <a class="nav-link" href="#" onclick="showTab('statistics')">
+                <a class="nav-link" href="#" >
                     <i class="fas fa-chart-bar"></i> Thống kê
                 </a>
-                <a class="nav-link" href="#" onclick="showTab('approval')">
+                <a class="nav-link" href="#" >
                     <i class="fas fa-check-circle"></i> Phê duyệt khóa học
                 </a>
+
                 <hr class="bg-white">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-cog"></i> Cài đặt
-                </a>
+
                 <a class="nav-link" href="#">
                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                 </a>
@@ -104,6 +103,7 @@
 
 
             <h2>Tài khoản đang hoạt động</h2>
+            <div class="card">
             <table class="table table-hover">
                 <tr>
                     <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Hành động</th>
@@ -132,8 +132,10 @@
                     </tr>
                 <?php endforeach; ?>
             </table> <!-- ĐÓNG TABLE Ở ĐÂY -->
+            </div>
 
             <h2>Tài khoản đang chờ duyệt</h2> <!-- BÂY GIỜ H2 MỚI Ở ĐÚNG CHỖ -->
+            <div class="card">
             <table class="table table-hover">
                 <tr>
                     <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Hành động</th>
@@ -162,27 +164,13 @@
                     </tr>
                 <?php endforeach; ?>
             </table> <!-- ĐÓNG TABLE THỨ HAI -->
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    function showTab(tabName) {
-        // Ẩn tất cả tab
-        const tabs = document.querySelectorAll('.tab-content');
-        tabs.forEach(tab => tab.style.display = 'none');
-
-        // Hiển thị tab được chọn
-        document.getElementById(tabName + '-tab').style.display = 'block';
-
-        // Xóa class active của tất cả nav-link
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => link.classList.remove('active'));
-
-        // Thêm class active cho nav-link được click
-        event.target.classList.add('active');
-    }
 </script>
 </body>
 </html>
