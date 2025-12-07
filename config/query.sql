@@ -67,6 +67,24 @@
         FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
     );
 
+-- Tạo bảng courses  chờ duyệt      (KHÓA HỌC)
+    CREATE TABLE courses_cho_duyet
+    (
+        id             INT PRIMARY KEY AUTO_INCREMENT,
+        title          VARCHAR(255) NOT NULL,
+        description    TEXT,
+        instructor_id  INT          NOT NULL,
+        category_id    INT          NOT NULL,
+        price          DECIMAL(10, 2) DEFAULT 0.00,
+        duration_weeks INT,
+        level          VARCHAR(50),
+        image VARCHAR(255),
+        created_at     DATETIME       DEFAULT CURRENT_TIMESTAMP,
+        updated_at     DATETIME       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (instructor_id) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
+    );
+
 -- Tạo bảng enrollments         (ĐĂNG KÝ HỌC)
     CREATE TABLE enrollments
     (
