@@ -1,1 +1,53 @@
-<?php
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <h3 class="text-center mb-4">Đăng ký tài khoản</h3>
+                        
+                        <form method="POST"  id="registerForm">
+                            <div class="mb-3">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <input type="text" name="fullname" class="form-control" required autofocus>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tên đăng nhập <span class="text-danger">*</span></label>
+                                <input type="text" name="username" class="form-control" required minlength="3" pattern="[a-zA-Z0-9_]+">
+                                <small class="text-muted">Chỉ chấp nhận chữ cái, số và dấu gạch dưới</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" name="password" id="password" class="form-control" required minlength="6">
+                                <small class="text-muted">Tối thiểu 6 ký tự</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <a href="views/auth/login.php">Đã có tài khoản? Đăng nhập</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
