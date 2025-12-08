@@ -1,7 +1,6 @@
 <?php
-
-
-require_once '../config/CategoryDB.php';
+require_once __DIR__ . '/../config/configRoute.php';
+require_once __DIR__ . '/../config/CategoryDB.php';
 
 $db = new ConnectDb();
 
@@ -15,10 +14,9 @@ if (isset($_POST['delete_category'])) {
     $id = $_POST['id'];
     $categoryManager->deleteCategory($id);
     $_SESSION['success'] = 'Xóa danh mục thành công!';
-    header('Location: ../controllers/CourseController.php');
+    header('Location: ' . BASE_URL . 'controllers/CourseController.php');
     exit();
 }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -41,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['success'] = 'Cập nhật danh mục thành công!';
     }
 
-    header('Location: ../controllers/CourseController.php');
+    header('Location: ' . BASE_URL . 'controllers/CourseController.php');
     exit();
 }
 
-include '../views/admin/managerCategory.php';
+include __DIR__ . '/../views/admin/managerCategory.php';
