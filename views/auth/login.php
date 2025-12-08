@@ -27,7 +27,7 @@
                         </form>
                         
                         <div class="text-center mt-3">
-                            <a href="views/auth/register.php">Chưa có tài khoản? Đăng ký ngay</a>
+                            <a href="<?= BASE_URL ?>controllers/RegisterController.php">Chưa có tài khoản? Đăng ký ngay</a>
                         </div>
                     </div>
                 </div>

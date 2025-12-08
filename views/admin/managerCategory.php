@@ -71,21 +71,21 @@
                 <hr class="bg-white">
             </div>
             <nav class="nav flex-column">
-                <a class="nav-link active" href="../../controllers/AdminController.php" >
+                <a class="nav-link" href="<?= BASE_URL ?>controllers/AdminController.php">
                     <i class="fas fa-users"></i> Người dùng
                 </a>
-                <a class="nav-link" href="#" >
+                <a class="nav-link active" href="<?= BASE_URL ?>controllers/CourseController.php">
                     <i class="fas fa-folder"></i> Danh mục khóa học
                 </a>
-                <a class="nav-link" href="#" >
+                <a class="nav-link" href="#">
                     <i class="fas fa-chart-bar"></i> Thống kê
                 </a>
-                <a class="nav-link" href="#" >
+                <a class="nav-link" href="#">
                     <i class="fas fa-check-circle"></i> Phê duyệt khóa học
                 </a>
 
                 <hr class="bg-white">
-                <a class="nav-link" href="../../index.php">
+                <a class="nav-link" href="<?= BASE_URL ?>">
                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                 </a>
             </nav>
@@ -131,7 +131,7 @@
                                             <div style="display: flex">
                                                 <button onclick="openEditModal(<?= $category['id'] ?>, '<?= htmlspecialchars($category['name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($category['description'], ENT_QUOTES) ?>')" style="margin-right: 10px" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#categoryModal"><i class="fas fa-edit"></i></button>
 
-                                                <form method="post" action="../controllers/CourseController.php" style="display: inline;">
+                                                <form method="post" action="<?= BASE_URL ?>controllers/CourseController.php" style="display: inline;">
                                                     <input type="hidden" name="id" value="<?= htmlspecialchars($category['id']) ?>">
                                                     <button onclick="return confirm('Bạn chắc chắn muốn xóa?')" style="margin-right: 10px" type="submit" class="btn btn-outline-danger" name="delete_category"><i class="fas fa-trash"></i></button>
                                                 </form>
@@ -156,7 +156,7 @@
                 <h5 class="modal-title" id="categoryModalLabel">Thêm danh mục</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="../controllers/CourseController.php" id="categoryForm">
+            <form method="POST" action="<?= BASE_URL ?>controllers/CourseController.php" id="categoryForm">
                 <div class="modal-body">
                     <input type="hidden" name="category_id" id="category_id" value="">
                     <input type="hidden" name="action" id="action" value="add">

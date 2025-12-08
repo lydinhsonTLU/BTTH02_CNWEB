@@ -71,22 +71,22 @@
                 <hr class="bg-white">
             </div>
             <nav class="nav flex-column">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="<?= BASE_URL ?>controllers/AdminController.php">
                     <i class="fas fa-users"></i> Người dùng
                 </a>
-                <a class="nav-link" href="../controllers/CourseController.php" >
+                <a class="nav-link" href="<?= BASE_URL ?>controllers/CourseController.php">
                     <i class="fas fa-folder"></i> Danh mục khóa học
                 </a>
-                <a class="nav-link" href="#" >
+                <a class="nav-link" href="#">
                     <i class="fas fa-chart-bar"></i> Thống kê
                 </a>
-                <a class="nav-link" href="#" >
+                <a class="nav-link" href="#">
                     <i class="fas fa-check-circle"></i> Phê duyệt khóa học
                 </a>
 
                 <hr class="bg-white">
 
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<?= BASE_URL ?>">
                     <i class="fas fa-sign-out-alt"></i> Đăng xuất
                 </a>
             </nav>
@@ -106,7 +106,7 @@
             <div class="card">
             <table class="table table-hover">
                 <tr>
-                    <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Hành động</th>
+                    <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Trạng thái</th><th>Hành động</th>
                 </tr>
                 <?php foreach ($users as $user): ?>
                     <tr>
@@ -121,11 +121,12 @@
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($user['created_at']) ?></td>
+                        <td><span class="status-badge status-active">Hoạt động</span></td>
                         <td>
                             <div style="display: flex">
-                                <form action="../controllers/AdminController.php" method="POST">
+                                <form action="<?= BASE_URL ?>controllers/AdminController.php" method="POST">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
-                                    <button type="submit" class="btn btn-outline-danger" name="vo_hieu_hoa" onclick="return confirm('Bạn chắc chắn muốn vô hiệu hóa?')">Vô hiệu hóa</button>
+                                    <button title="Vô hiệu hóa" type="submit" class="btn btn-outline-danger" name="vo_hieu_hoa" onclick="return confirm('Bạn chắc chắn muốn vô hiệu hóa?')"><i class="fas fa-ban"></i></button>
                                 </form>
                             </div>
                         </td>
@@ -138,7 +139,7 @@
             <div class="card">
             <table class="table table-hover">
                 <tr>
-                    <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Hành động</th>
+                    <th>Tài khoản</th><th>Email</th><th>Tên</th><th>Vai trò</th><th>Ngày tạo</th><th>Trạng thái</th><th>Hành động</th>
                 </tr>
                 <?php foreach ($users_cho_duyet as $user): ?>
                     <tr>
@@ -153,11 +154,12 @@
                             <?php endif; ?>
                         </td>
                         <td><?= htmlspecialchars($user['created_at']) ?></td>
+                        <td><span class="status-badge status-pending">Chờ duyệt</span></td>
                         <td>
                             <div style="display: flex">
-                                <form action="../controllers/AdminController.php" method="get">
+                                <form action="<?= BASE_URL ?>controllers/AdminController.php" method="get">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>">
-                                    <button onclick="return confirm('Bạn muốn kích hoạt?')" style="margin-right: 10px" type="submit" class="btn btn-outline-primary" name="kich_hoat">Kích hoạt</button>
+                                    <button title="Kích hoạt" onclick="return confirm('Bạn muốn kích hoạt?')" style="margin-right: 10px" type="submit" class="btn btn-outline-primary" name="kich_hoat"><i class="fas fa-check"></i></button>
                                 </form>
                             </div>
                         </td>

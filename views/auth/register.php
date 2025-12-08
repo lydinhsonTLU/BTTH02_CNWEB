@@ -15,7 +15,7 @@
                     <div class="card-body p-5">
                         <h3 class="text-center mb-4">Đăng ký tài khoản</h3>
                         
-                        <form method="POST"  id="registerForm">
+                        <form method="POST" id="registerForm">
                             <div class="mb-3">
                                 <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
                                 <input type="text" name="fullname" class="form-control" required autofocus>
@@ -42,7 +42,7 @@
                         </form>
                         
                         <div class="text-center mt-3">
-                            <a href="views/auth/login.php">Đã có tài khoản? Đăng nhập</a>
+                            <a href="<?= BASE_URL ?>controllers/LoginController.php">Đã có tài khoản? Đăng nhập</a>
                         </div>
                     </div>
                 </div>
