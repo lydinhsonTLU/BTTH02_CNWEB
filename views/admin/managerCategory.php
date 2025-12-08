@@ -74,13 +74,13 @@
                 <a class="nav-link" href="<?= BASE_URL ?>controllers/AdminController.php">
                     <i class="fas fa-users"></i> Người dùng
                 </a>
-                <a class="nav-link active" href="<?= BASE_URL ?>controllers/CourseController.php">
+                <a class="nav-link active" href="<?= BASE_URL ?>controllers/CategoryController.php">
                     <i class="fas fa-folder"></i> Danh mục khóa học
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<?= BASE_URL ?>controllers/ThongkeController.php">
                     <i class="fas fa-chart-bar"></i> Thống kê
                 </a>
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="<?= BASE_URL ?>controllers/PheduyetCourseController.php">
                     <i class="fas fa-check-circle"></i> Phê duyệt khóa học
                 </a>
 
