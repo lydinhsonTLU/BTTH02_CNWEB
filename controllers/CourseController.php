@@ -11,7 +11,7 @@ class CourseController {
             header("Location: index.php?controller=Auth&action=login");
             exit;
         }
-        $database = new Database();
+        $database = new ConnectDb();
         $this->db = $database->getConnection();
         $this->courseModel = new Course($this->db);
     }
