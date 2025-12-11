@@ -11,7 +11,7 @@ session_start();
 
 // Nếu đã đăng nhập, chuyển đến dashboard
 if (isset($_SESSION['user_id']) && $_SESSION['role'] == 0) {
-    header("Location: " . BASE_URL . "views/student/dashboard.php");
+    header("Location: " . BASE_URL . "controllers/StudentController.php");
     exit();
 }
 
@@ -32,27 +32,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     }
 
     if (empty($errors)) {
-        // Lấy thông tin user theo username và role = 0 (sinh viên)
-        $user = $userManager->getUserByRole($username, 0);
+        // Lấy thông tin user theo username
+        $user = $userManager->getUserByUsername($username);
 
         if ($user) {
             // Kiểm tra mật khẩu
             if (password_verify($password, $user['password'])) {
-                // Lưu thông tin vào session
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['fullname'] = $user['fullname'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['role'] = $user['role'];
+                // Kiểm tra role = 0 (sinh viên)
+                if ($user['role'] == 0) {
+                    // Lưu thông tin vào session
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['username'] = $user['username'];
+                    $_SESSION['fullname'] = $user['fullname'];
+                    $_SESSION['email'] = $user['email'];
+                    $_SESSION['role'] = $user['role'];
 
-                // Chuyển đến dashboard
-                header("Location: " . BASE_URL . "views/student/dashboard.php");
-                exit();
+                    // Debug
+                    error_log("Login successful for user: " . $user['username']);
+                    error_log("Session data: " . print_r($_SESSION, true));
+
+                    // Chuyển đến dashboard
+                    header("Location: " . BASE_URL . "controllers/StudentController.php");
+                    exit();
+                } else {
+                    $_SESSION['error'] = "Tài khoản không có quyền truy cập dành cho sinh viên!";
+                }
             } else {
                 $_SESSION['error'] = "Mật khẩu không chính xác!";
             }
         } else {
-            $_SESSION['error'] = "Tên đăng nhập không tồn tại hoặc không có quyền truy cập dành cho sinh viên!";
+            $_SESSION['error'] = "Tên đăng nhập không tồn tại!";
         }
     } else {
         $_SESSION['error'] = implode("<br>", $errors);
