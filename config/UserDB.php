@@ -46,6 +46,22 @@ class UserManager {
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    // READ BY USERNAME
+    public function getUserByUsername($username) {
+        $sql = "SELECT * FROM users WHERE username = :username";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':username' => $username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // READ BY USERNAME AND ROLE
+    public function getUserByRole($username, $role) {
+        $sql = "SELECT * FROM users WHERE username = :username AND role = :role";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':username' => $username, ':role' => $role]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     
     // UPDATE
     public function updateUser($id, $name, $email) {
