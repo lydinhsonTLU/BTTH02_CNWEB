@@ -8,6 +8,14 @@ $userManager = new UserManager($db);
 
 session_start();
 
+// Xử lý đăng xuất
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: " . BASE_URL);
+    exit();
+}
+
 $users = $userManager->getAllUsers();
 
 $users_cho_duyet = $userManager->getAllUsers_cho_duyet();

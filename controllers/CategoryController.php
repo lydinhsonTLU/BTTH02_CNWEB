@@ -8,6 +8,14 @@ $categoryManager = new CategoryManager($db);
 
 session_start();
 
+// Xử lý đăng xuất
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: " . BASE_URL);
+    exit();
+}
+
 $categories = $categoryManager->getAllCategories();
 
 if (isset($_POST['delete_category'])) {
@@ -44,3 +52,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include __DIR__ . '/../views/admin/managerCategory.php';
+?>
+<a href="<?= BASE_URL ?>controllers/CategoryController.php?action=logout">Đăng xuất</a>

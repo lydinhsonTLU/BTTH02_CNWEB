@@ -6,6 +6,16 @@ require_once __DIR__ . '/../config/CourseDB.php';
 $db = new ConnectDb();
 $khoahoc = new CourseManager($db);
 
+session_start();
+
+// Xử lý đăng xuất
+if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+    session_unset();
+    session_destroy();
+    header("Location: " . BASE_URL);
+    exit();
+}
+
 $pheduyetkhoahoc = $khoahoc->getAllCourses_cho_duyet();
 
 //kich hoat
