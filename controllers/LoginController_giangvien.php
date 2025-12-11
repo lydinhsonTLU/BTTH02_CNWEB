@@ -9,9 +9,9 @@ $userManager = new UserManager($db);
 
 session_start();
 
-// Nếu đã đăng nhập, chuyển đến dashboard
+// Nếu đã đăng nhập, chuyển đến dashboard qua controller
 if (isset($_SESSION['user_id']) && $_SESSION['role'] == 1) {
-    header("Location: " . BASE_URL . "views/teacher/dashboard.php");
+    header("Location: " . BASE_URL . "controllers/TeacherController.php");
     exit();
 }
 
@@ -45,8 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
-                // Chuyển đến dashboard
-                header("Location: " . BASE_URL . "views/teacher/dashboard.php");
+                // Chuyển đến dashboard qua controller
+                header("Location: " . BASE_URL . "controllers/TeacherController.php");
                 exit();
             } else {
                 $_SESSION['error'] = "Mật khẩu không chính xác!";
