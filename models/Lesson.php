@@ -1,46 +1,40 @@
 <?php
-class Lesson {
-    private $conn;
-    private $table = "lessons";
+class Lesson
+{
+    private $id;
+    private $course_id;
+    private $title;
+    private $content;
+    private $video_url;
+    private $order;
+    private $created_at;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct($id, $course_id, $title, $content, $video_url, $order, $created_at)
+    {
+        $this->id = $id;
+        $this->course_id = $course_id;
+        $this->title = $title;
+        $this->content = $content;
+        $this->video_url = $video_url;
+        $this->order = $order;
+        $this->created_at = $created_at;
     }
 
-    public function getByCourseId($course_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE course_id = :cid ORDER BY `order` ASC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':cid', $course_id);
-        $stmt->execute();
-        return $stmt;
-    }
+    // Getters
+    public function getId() { return $this->id; }
+    public function getCourseId() { return $this->course_id; }
+    public function getTitle() { return $this->title; }
+    public function getContent() { return $this->content; }
+    public function getVideoUrl() { return $this->video_url; }
+    public function getOrder() { return $this->order; }
+    public function getCreatedAt() { return $this->created_at; }
 
-    public function create($course_id, $title, $content, $video, $order) {
-        $query = "INSERT INTO " . $this->table . " (course_id, title, content, video_url, `order`, created_at)
-                  VALUES (:cid, :title, :content, :vid, :ord, NOW())";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':cid', $course_id);
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':vid', $video);
-        $stmt->bindParam(':ord', $order);
-        
-        if($stmt->execute()) {
-            return $this->conn->lastInsertId();
-        }
-        return false;
-    }
-
-    // Upload tài liệu (vào bảng materials)
-    public function addMaterial($lesson_id, $filename, $filepath, $filetype) {
-        $query = "INSERT INTO materials (lesson_id, filename, file_path, file_type, uploaded_at)
-                  VALUES (:lid, :fname, :fpath, :ftype, NOW())";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':lid', $lesson_id);
-        $stmt->bindParam(':fname', $filename);
-        $stmt->bindParam(':fpath', $filepath);
-        $stmt->bindParam(':ftype', $filetype);
-        return $stmt->execute();
-    }
+    // Setters
+    public function setId($id) { $this->id = $id; }
+    public function setCourseId($course_id) { $this->course_id = $course_id; }
+    public function setTitle($title) { $this->title = $title; }
+    public function setContent($content) { $this->content = $content; }
+    public function setVideoUrl($video_url) { $this->video_url = $video_url; }
+    public function setOrder($order) { $this->order = $order; }
+    public function setCreatedAt($created_at) { $this->created_at = $created_at; }
 }
-?>

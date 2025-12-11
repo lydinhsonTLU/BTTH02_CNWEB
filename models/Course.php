@@ -1,76 +1,56 @@
 <?php
-class Course {
-    private $conn;
-    private $table = "courses";
+class Course
+{
+    private $id;
+    private $title;
+    private $description;
+    private $instructor_id;
+    private $category_id;
+    private $price;
+    private $duration_weeks;
+    private $level;
+    private $image;
+    private $created_at;
+    private $updated_at;
 
-    public function __construct($db) {
-        $this->conn = $db;
+    public function __construct($id, $title, $description, $instructor_id, $category_id, $price, $duration_weeks, $level, $image, $created_at, $updated_at)
+    {
+        $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->instructor_id = $instructor_id;
+        $this->category_id = $category_id;
+        $this->price = $price;
+        $this->duration_weeks = $duration_weeks;
+        $this->level = $level;
+        $this->image = $image;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
-    // Lấy khóa học của giảng viên cụ thể
-    public function getByInstructor($instructor_id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE instructor_id = :id ORDER BY created_at DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $instructor_id);
-        $stmt->execute();
-        return $stmt;
-    }
+    // Getters
+    public function getId() { return $this->id; }
+    public function getTitle() { return $this->title; }
+    public function getDescription() { return $this->description; }
+    public function getInstructorId() { return $this->instructor_id; }
+    public function getCategoryId() { return $this->category_id; }
+    public function getPrice() { return $this->price; }
+    public function getDurationWeeks() { return $this->duration_weeks; }
+    public function getLevel() { return $this->level; }
+    public function getImage() { return $this->image; }
+    public function getCreatedAt() { return $this->created_at; }
+    public function getUpdatedAt() { return $this->updated_at; }
 
-    // Tạo khóa học mới
-    public function create($title, $desc, $instructor_id, $cat_id, $price, $duration, $level, $image) {
-        $query = "INSERT INTO " . $this->table . " 
-                  (title, description, instructor_id, category_id, price, duration_weeks, level, image, created_at)
-                  VALUES (:title, :desc, :uid, :cat_id, :price, :dur, :lvl, :img, NOW())";
-        $stmt = $this->conn->prepare($query);
-        
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':desc', $desc);
-        $stmt->bindParam(':uid', $instructor_id);
-        $stmt->bindParam(':cat_id', $cat_id);
-        $stmt->bindParam(':price', $price);
-        $stmt->bindParam(':dur', $duration);
-        $stmt->bindParam(':lvl', $level);
-        $stmt->bindParam(':img', $image);
-        
-        return $stmt->execute();
-    }
-
-    // Lấy chi tiết khóa học
-    public function getById($id) {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-    
-    // Xóa khóa học
-    public function delete($id, $instructor_id) {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id AND instructor_id = :uid";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':uid', $instructor_id);
-        return $stmt->execute();
-    }
-
-    // Lấy danh sách học viên của khóa học (Kèm tiến độ)
-    public function getStudents($course_id, $instructor_id) {
-        // Kiểm tra xem khóa học có thuộc giảng viên này không trước
-        $checkParams = [':cid' => $course_id, ':uid' => $instructor_id];
-        $checkSql = "SELECT id FROM courses WHERE id = :cid AND instructor_id = :uid";
-        $stmtCheck = $this->conn->prepare($checkSql);
-        $stmtCheck->execute($checkParams);
-        
-        if($stmtCheck->rowCount() == 0) return false;
-
-        $query = "SELECT u.fullname, u.email, e.enrolled_date, e.progress, e.status 
-                  FROM enrollments e
-                  JOIN users u ON e.student_id = u.id
-                  WHERE e.course_id = :cid";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':cid', $course_id);
-        $stmt->execute();
-        return $stmt;
-    }
+    // Setters
+    public function setId($id) { $this->id = $id; }
+    public function setTitle($title) { $this->title = $title; }
+    public function setDescription($description) { $this->description = $description; }
+    public function setInstructorId($instructor_id) { $this->instructor_id = $instructor_id; }
+    public function setCategoryId($category_id) { $this->category_id = $category_id; }
+    public function setPrice($price) { $this->price = $price; }
+    public function setDurationWeeks($duration_weeks) { $this->duration_weeks = $duration_weeks; }
+    public function setLevel($level) { $this->level = $level; }
+    public function setImage($image) { $this->image = $image; }
+    public function setCreatedAt($created_at) { $this->created_at = $created_at; }
+    public function setUpdatedAt($updated_at) { $this->updated_at = $updated_at; }
 }
-?>
