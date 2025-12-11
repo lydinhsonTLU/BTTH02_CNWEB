@@ -1,12 +1,10 @@
 <?php
-// controllers/Controller.php - FIX VĨNH VIỄN ĐƯỜNG DẪN VIEW
 class Controller
 {
     protected function view($viewPath, $data = [])
     {
         extract($data);
 
-        // ĐƯỜNG DẪN TUYỆT ĐỐI – CHẠY ĐÚNG 100% MỌI LÚC
         $file = __DIR__ . "/../views/{$viewPath}.php";
 
         if (file_exists($file)) {
@@ -21,62 +19,88 @@ class Controller
         header("Location: $url");
         exit;
     }
-    public function myCourses() {
-    session_start();
-    $student_id = $_SESSION['user_id'];
-
-    $courses = EnrollmentModel::getMyCourses($student_id);
-
-    include "./views/student/my_courses.php";
 }
-//Xem khóa học đã đăng ký
-public function myCourses()
-{
-    session_start();
-    $student_id = $_SESSION['user_id'];
 
-    $courses = Enrollment::getMyCourses($student_id);
+class StudentController extends Controller {
 
-    include "./views/student/my_courses.php";
-}
-//Xem chi tiết khóa học + tiến độ + danh sách bài học
-public function viewCourse()
-{
-    global $pdo;
+    private $enrollmentModel;
+    private $courseModel;
+    private $lessonModel;
 
-    $course_id = $_GET['id'];
+    public function __construct() {
+        $this->enrollmentModel = new Enrollment();
+        $this->courseModel = new Course();
+        $this->lessonModel = new Lesson();
+    }
 
-    // Lấy thông tin khóa học
-    $stmt = $pdo->prepare("SELECT * FROM courses WHERE id=?");
-    $stmt->execute([$course_id]);
-    $course = $stmt->fetch();
+    // 4. Xem khóa học đã đăng ký
+    public function myCourses()
+    {
+        session_start();
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['error'] = "Bạn cần đăng nhập để xem khóa học của mình";
+            $this->redirect('?url=auth/login');
+        }
 
-    // Lấy bài học
-    $stmt = $pdo->prepare("SELECT * FROM lessons WHERE course_id=? ORDER BY `order`");
-    $stmt->execute([$course_id]);
-    $lessons = $stmt->fetchAll();
+        $student_id = $_SESSION['user_id'];
+        $courses = $this->enrollmentModel->getMyCourses($student_id);
 
-    include "./views/student/course_detail.php";
-}
-//xem bài học và tài liệu
-public function viewLesson()
-{
-    global $pdo;
+        $this->view('student/my_courses', [
+            'courses' => $courses
+        ]);
+    }
 
-    $lesson_id = $_GET['id'];
+    // 5. Theo dõi tiến độ học tập (chi tiết khóa học cho học viên)
+    public function viewCourse()
+    {
+        session_start();
+        $course_id = $_GET['id'] ?? null;
+        if (!$course_id || !is_numeric($course_id)) {
+            $_SESSION['error'] = "Khóa học không hợp lệ";
+            $this->redirect('?url=student');
+        }
 
-    // Lấy thông tin bài học
-    $stmt = $pdo->prepare("SELECT * FROM lessons WHERE id=?");
-    $stmt->execute([$lesson_id]);
-    $lesson = $stmt->fetch();
+        $course = $this->courseModel->getById($course_id);
+        if (!$course) {
+            $_SESSION['error'] = "Không tìm thấy khóa học";
+            $this->redirect('?url=student');
+        }
 
-    // Lấy tài liệu bài học
-    $stmt = $pdo->prepare("SELECT * FROM materials WHERE lesson_id=?");
-    $stmt->execute([$lesson_id]);
-    $materials = $stmt->fetchAll();
+        $lessons = $this->lessonModel->getByCourseId($course_id);
+        $student_id = $_SESSION['user_id'] ?? null;
+        $enrollment = $this->enrollmentModel->getEnrollment($course_id, $student_id);
+        $progress = $enrollment['progress'] ?? 0;
 
-    include "./views/student/lesson_detail.php";
-}
+        $this->view('student/course_detail', [
+            'course' => $course,
+            'lessons' => $lessons,
+            'progress' => $progress
+        ]);
+    }
+
+    // 6. Xem bài học và tài liệu
+    public function viewLesson()
+    {
+        session_start();
+        $lesson_id = $_GET['id'] ?? null;
+        if (!$lesson_id || !is_numeric($lesson_id)) {
+            $_SESSION['error'] = "Bài học không hợp lệ";
+            $this->redirect('?url=student');
+        }
+
+        $lesson = $this->lessonModel->getById($lesson_id);
+        if (!$lesson) {
+            $_SESSION['error'] = "Không tìm thấy bài học";
+            $this->redirect('?url=student');
+        }
+
+        $materials = $this->lessonModel->getMaterials($lesson_id);
+
+        $this->view('student/lesson_detail', [
+            'lesson' => $lesson,
+            'materials' => $materials
+        ]);
+    }
 
 }
 
