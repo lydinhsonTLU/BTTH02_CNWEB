@@ -20,8 +20,14 @@ $categories = $categoryManager->getAllCategories();
 
 if (isset($_POST['delete_category'])) {
     $id = $_POST['id'];
-    $categoryManager->deleteCategory($id);
-    $_SESSION['success'] = 'Xóa danh mục thành công!';
+    
+    try {
+        $categoryManager->deleteCategory($id);
+        $_SESSION['success'] = 'Xóa danh mục thành công!';
+    } catch (Exception $e) {
+        $_SESSION['error'] = 'Không thể xóa danh mục! ' . $e->getMessage();
+    }
+    
     header('Location: ' . BASE_URL . 'controllers/CategoryController.php');
     exit();
 }
@@ -31,20 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'add') {
         // XỬ LÝ THÊM MỚI
-        $name = $_POST['category_name'];
-        $description = $_POST['category_description'];
+        $name = trim($_POST['category_name']);
+        $description = trim($_POST['category_description']);
 
-        $categoryManager->createCategory($name, $description);
-        $_SESSION['success'] = 'Thêm danh mục thành công!';
+        if (empty($name)) {
+            $_SESSION['error'] = 'Tên danh mục không được để trống!';
+        } else {
+            try {
+                $categoryManager->createCategory($name, $description);
+                $_SESSION['success'] = 'Thêm danh mục thành công!';
+            } catch (Exception $e) {
+                $_SESSION['error'] = 'Thêm danh mục thất bại! ' . $e->getMessage();
+            }
+        }
 
     } elseif ($action === 'edit') {
         // XỬ LÝ CHỈNH SỬA
-        $id = $_POST['category_id'];
-        $name = $_POST['category_name'];
-        $description = $_POST['category_description'];
+        $id = intval($_POST['category_id']);
+        $name = trim($_POST['category_name']);
+        $description = trim($_POST['category_description']);
 
-        $categoryManager->updateCategory($id, $name, $description);
-        $_SESSION['success'] = 'Cập nhật danh mục thành công!';
+        if (empty($name)) {
+            $_SESSION['error'] = 'Tên danh mục không được để trống!';
+        } else {
+            try {
+                $categoryManager->updateCategory($id, $name, $description);
+                $_SESSION['success'] = 'Cập nhật danh mục thành công!';
+            } catch (Exception $e) {
+                $_SESSION['error'] = 'Cập nhật danh mục thất bại! ' . $e->getMessage();
+            }
+        }
     }
 
     header('Location: ' . BASE_URL . 'controllers/CategoryController.php');

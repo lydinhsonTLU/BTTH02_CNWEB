@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -100,50 +101,57 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
-            
-                <div class="card">
-                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Danh mục khóa học</h5>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal" onclick="openAddModal()"><i class="fas fa-plus"></i> Thêm danh mục</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tên danh mục</th>
-                                    <th>Mô tả</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Trạng thái</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($categories as $category): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($category['id']) ?></td>
-                                        <td><?= htmlspecialchars($category['name']) ?></td>
-                                        <td><?= htmlspecialchars($category['description']) ?></td>
-                                        <td><?= htmlspecialchars($category['created_at']) ?></td>
-                                        <td><span class="status-badge status-active">Hoạt động</span></td>
-                                        <td>
-                                            <div style="display: flex">
-                                                <button onclick="openEditModal(<?= $category['id'] ?>, '<?= htmlspecialchars($category['name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($category['description'], ENT_QUOTES) ?>')" style="margin-right: 10px" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#categoryModal"><i class="fas fa-edit"></i></button>
 
-                                                <form method="post" action="<?= BASE_URL ?>controllers/CourseController.php" style="display: inline;">
-                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($category['id']) ?>">
-                                                    <button onclick="return confirm('Bạn chắc chắn muốn xóa?')" style="margin-right: 10px" type="submit" class="btn btn-outline-danger" name="delete_category"><i class="fas fa-trash"></i></button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+            
+            <div class="card">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Danh mục khóa học</h5>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal" onclick="openAddModal()"><i class="fas fa-plus"></i> Thêm danh mục</button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên danh mục</th>
+                                <th>Mô tả</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($categories as $category): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($category['id']) ?></td>
+                                    <td><?= htmlspecialchars($category['name']) ?></td>
+                                    <td><?= htmlspecialchars($category['description']) ?></td>
+                                    <td><?= htmlspecialchars($category['created_at']) ?></td>
+                                    <td><span class="status-badge status-active">Hoạt động</span></td>
+                                    <td>
+                                        <div style="display: flex">
+                                            <button onclick="openEditModal(<?= $category['id'] ?>, '<?= htmlspecialchars($category['name'], ENT_QUOTES) ?>', '<?= htmlspecialchars($category['description'], ENT_QUOTES) ?>')" style="margin-right: 10px" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#categoryModal"><i class="fas fa-edit"></i></button>
+
+                                            <form method="post" action="<?= BASE_URL ?>controllers/CategoryController.php" style="display: inline;">
+                                                <input type="hidden" name="id" value="<?= htmlspecialchars($category['id']) ?>">
+                                                <button onclick="return confirm('Bạn chắc chắn muốn xóa?')" style="margin-right: 10px" type="submit" class="btn btn-outline-danger" name="delete_category"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>
@@ -156,7 +164,7 @@
                 <h5 class="modal-title" id="categoryModalLabel">Thêm danh mục</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="<?= BASE_URL ?>controllers/CourseController.php" id="categoryForm">
+            <form method="POST" action="<?= BASE_URL ?>controllers/CategoryController.php" id="categoryForm">
                 <div class="modal-body">
                     <input type="hidden" name="category_id" id="category_id" value="">
                     <input type="hidden" name="action" id="action" value="add">
